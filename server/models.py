@@ -5,6 +5,11 @@ import enum
 
 from config import db
 
+
+# Models go here! Mock models
+
+    
+
 # Models go here!
 
 class Patient (db.Model, SerializerMixin):
@@ -74,4 +79,3 @@ class Doctor(db.Model):
 
         def __repr__(self):
             return f'Appointment {self.id}, {self.appointment_date}, {self.appointment_time}, {self.reason_for_visit}, {self.status}>'
-

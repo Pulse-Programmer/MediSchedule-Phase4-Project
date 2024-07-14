@@ -5,14 +5,17 @@ export const LoginForm = () => {
   const [doctors, setDoctors] = useState([{}]);
   const [refreshPage, setRefreshPage] = useState(false);
   useEffect(() => {
-    fetch("/<doctor login route>")
+    fetch("/dms")
       .then((res) => res.json())
       .then((data) => {
         setDoctors(data);
       });
   }, [refreshPage]);
   const formSchema = yup.object().shape({
-    email: yup.string().email("Incorrect email or password.Try again.").required("Please enter email."),
+    email: yup
+      .string()
+      .email("Incorrect email or password.Try again.")
+      .required("Please enter email."),
     password: yup
       .string()
       .password("Incorrect email or password.Try again.")
@@ -25,12 +28,12 @@ export const LoginForm = () => {
     },
     validationSchema: formSchema,
     onSubmit: (values) => {
-      fetch("/<doctor login route>", {
+      fetch("/dms", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(values, null,2),
+        body: JSON.stringify(values, null, 2),
       }).then((res) => {
         if (res.status == 200) {
           setRefreshPage(!refreshPage);
@@ -41,7 +44,7 @@ export const LoginForm = () => {
   return (
     <div>
       <h1>Doctor Login Form</h1>
-      <form onSubmit={formik.handleSubmit}>
+      <form onSubmit={formik.handleSubmit} style={{ margin: "30px" }}>
         <label htmlFor="email">Email Address</label>
         <br />
         <input

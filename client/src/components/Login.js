@@ -43,7 +43,7 @@ export const LoginForm = () => {
   });
   return (
     <div>
-      <h1>Doctor Login Form</h1>
+      <h1>Doctor Login Form.</h1>
       <form onSubmit={formik.handleSubmit} style={{ margin: "30px" }}>
         <label htmlFor="email">Email Address</label>
         <br />

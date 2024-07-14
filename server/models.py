@@ -21,8 +21,9 @@ class Patient (db.Model, SerializerMixin):
     #relationships
     appointments = db.relationship('Appointment', back_populates='patient', cascade='all, delete-orphan')
 
-    # Association proxy to get appointments for this patient through doctors
-    appointments = association_proxy('doctors', 'appointment', creator=lambda appointment_obj: Doctor(appointment=appointment_obj))
+    # Association proxy to get doctors for this patient through appointments
+    # doctors = association_proxy('appointments', 'doctor', creator=lambda doctor_obj: Appointment(doctor=doctor_obj))
+    
 
     def __repr__(self):
         return f'<Patient {self.id}, {self.name}, {self.age}, {self.gender}, {self.contact}, {self.address}, {self.medical_history}>'
@@ -36,9 +37,11 @@ class Doctor(db.Model):
     contact = db.Column(db.Integer)
     email = db.Column(db.String(100), unique=True, nullable=False)
     password = db.Column(db.String(100), nullable=False)
-    availability = db.Column(db.Boolean, nullable=False)
+    # availability = db.Column(db.Boolean, nullable=False)
     #relationships
     appointments = db.relationship('Appointment', back_populates='doctor', cascade='all, delete-orphan')
+    # Association proxy to get patients for this doctor through appointments
+   
 
     #validations
     @validates('name')
@@ -67,7 +70,7 @@ class Doctor(db.Model):
         appointment_date = db.Column(db.DateTime, nullable=False)
         appointment_time = db.Column(db.Time, nullable=False)
         reason_for_visit = db.Column(db.String, nullable=False)
-        status = db.Column(enum('Scheduled', 'Completed', 'Cancelled'), default='Scheduled')
+        # status = db.Column(enum('Scheduled', 'Completed', 'Cancelled'), default='Scheduled')
         # Relationships
         patient = db.relationship('Patient', back_populates='appointments')
         doctor = db.relationship('Doctor', back_populates='appointments')

@@ -14,17 +14,17 @@ function Appointment() {
 
   useEffect(() => {
     // Fetch patient data
-    fetch(`http://localhost:3000/patients/${id}`)
+    fetch(`/patients/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setPatient(data);
       });
 
     // Fetch existing appointments for the patient
-    fetch(`http://localhost:3000/appointments?patientId=${id}`)
+    fetch(`/patients/${id}`) /////appointments?patientId=${id}
       .then((res) => res.json())
       .then((data) => {
-        setAppointments(data);
+        setAppointments(data.appointments);
       });
   }, [id]);
 
@@ -38,7 +38,7 @@ function Appointment() {
     };
 
     const requestOptions = {
-      method: editMode ? "PUT" : "POST",
+      method: editMode ? "PATCH" : "POST",
       headers: {
         "Content-Type": "application/json",
       },
@@ -46,20 +46,26 @@ function Appointment() {
     };
 
     const url = editMode
-      ? `http://localhost:3000/appointments/${editAppointmentId}`
-      : "http://localhost:3000/appointments";
+      ? `/appointments/${editAppointmentId}`
+      : "/appointments";
 
     fetch(url, requestOptions)
       .then((res) => res.json())
       .then((data) => {
         if (editMode) {
           setAppointments(
-            appointments.map((appt) => (appt.id === editAppointmentId ? data : appt))
+            appointments.map((appt) =>
+              appt.id === editAppointmentId ? data : appt
+            )
           );
         } else {
           setAppointments([...appointments, data]);
         }
-        alert(editMode ? "Appointment updated successfully!" : "Appointment added successfully!");
+        alert(
+          editMode
+            ? "Appointment updated successfully!"
+            : "Appointment added successfully!"
+        );
         setDate("");
         setTime("");
         setAppointment("");
@@ -72,11 +78,13 @@ function Appointment() {
   };
 
   const handleDelete = (appointmentId) => {
-    fetch(`http://localhost:3000/appointments/${appointmentId}`, {
+    fetch(`/appointments/${appointmentId}`, {
       method: "DELETE",
     })
       .then(() => {
-        setAppointments(appointments.filter((appt) => appt.id !== appointmentId));
+        setAppointments(
+          appointments.filter((appt) => appt.id !== appointmentId)
+        );
         alert("Appointment deleted successfully!");
       })
       .catch((error) => {
@@ -93,8 +101,8 @@ function Appointment() {
   };
 
   return (
-      <div className="appointments-container">
-        <Navbar/>
+    <div className="appointments-container">
+      <Navbar />
       <h1>Appointment Form</h1>
       {patient && (
         <div>
@@ -128,30 +136,29 @@ function Appointment() {
                 onChange={(e) => setAppointment(e.target.value)}
               />
             </div>
-            <button type="submit">{editMode ? "Update Appointment" : "Add Appointment"}</button>
+            <button type="submit">
+              {editMode ? "Update Appointment" : "Add Appointment"}
+            </button>
           </form>
         </div>
       )}
-      
-      
+
       <h2>Appointments</h2>
-        {appointments.map((appt) => (
-          <div key={appt.id} className="appointment-card">
-            <p>
-              <strong>Date:</strong> {appt.date}
-            </p>
-            <p>
-              <strong>Time:</strong> {appt.time}
-            </p>
-            <p>
-              <strong>Reason:</strong> {appt.reason}
-            </p>
-            <button onClick={() => handleEdit(appt)}>Edit</button>
-            <button onClick={() => handleDelete(appt.id)}>Delete</button>
-          </div>
-        ))}
-      
-    
+      {appointments.map((appt) => (
+        <div key={appt.id} className="appointment-card">
+          <p>
+            <strong>Date:</strong> {appt.date}
+          </p>
+          <p>
+            <strong>Time:</strong> {appt.time}
+          </p>
+          <p>
+            <strong>Reason:</strong> {appt.reason}
+          </p>
+          <button onClick={() => handleEdit(appt)}>Edit</button>
+          <button onClick={() => handleDelete(appt.id)}>Delete</button>
+        </div>
+      ))}
     </div>
   );
 }

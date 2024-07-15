@@ -3,7 +3,7 @@
 # Standard library imports
 
 # Remote library imports
-from flask import request, make_response, jsonify
+from flask import request, make_response, jsonify, session
 from flask_restful import Resource
 
 # Local imports
@@ -24,8 +24,8 @@ class Doctors(Resource):
     
     def post(self):
         data = request.get_json()
-        doctor = Doctor(name=data['name'], specialty=data['specialty'])
-        
+        doctor = Doctor(name=data.get('name'), speciality=data.get('speciality'), email=data.get('email'))
+        # doctor.password_hash = data.get('password')
         db.session.add(doctor)
         db.session.commit()
         
@@ -58,7 +58,9 @@ class Appointments(Resource):
     
     def post(self):
         data = request.get_json()
-        appointment = Appointment(doctor_id=data['doctor_id'], patient_id=data['patient_id'], date=data['date'], time=data['time'])
+        patient = Patient.query.filter_by(id=data['patientId']).first()
+        doctor = Doctor.query.filter_by(id=session.get('user_id')).first()
+        appointment = Appointment(patient=patient, doctor=doctor, date=data['date'], time=data['time'], reason=data['reason'])
         
         db.session.add(appointment)
         db.session.commit()
@@ -109,7 +111,7 @@ class Patients(Resource):
     
     def post(self):
         data = request.get_json()
-        patient = Patient(name=data['name'], dob=data['dob'], gender=data['gender'], address=data['address'])
+        patient = Patient(name=data['name'], age=data['age'], gender=data['gender'], dateOfBirth=data['dateOfBirth'], contact=data['contact'], address=data['address'], medical_history=data['medicalHistory'])
         
         db.session.add(patient)
         db.session.commit()
@@ -150,6 +152,72 @@ class PatientById(Resource):
     
 api.add_resource(PatientById, '/patients/<int:id>')
 
+class Signup(Resource):
+    def post(self):
+        data = request.get_json()
+        
+        name = data.get('name')
+        password = data.get('password')
+        speciality = data.get('speciality')
+        contact = data.get('contact')
+        email = data.get('email')
+        
+        if not name or not password:
+            return make_response(jsonify({"message": "Missing required fields"}), 400)
+        
+        doctor = Doctor(name=name, speciality=speciality, email=email)
+        doctor.password_hash = password
+        
+        db.session.add(doctor)
+        db.session.commit()
+        
+        session['user_id'] = doctor.id
+        
+        response_body = doctor.to_dict(rules=('-password',))
+        
+        return make_response(response_body, 201)
+    
+api.add_resource(Signup, '/signup', endpoint='signup')
+
+class CheckSession(Resource):
+    def get(self):
+        if session.get('user_id'):
+            doctor = Doctor.query.filter_by(id=session.get('user_id')).first()
+            return make_response(jsonify(doctor.to_dict(rules=('-password',))), 200)
+        else:
+            return make_response(jsonify({"message": "Unauthorized"}), 401)
+    
+api.add_resource(CheckSession, '/check_session', endpoint='check_session')
+
+class Login(Resource):
+    def post(self):
+        data = request.get_json()
+        
+        email = data.get('email')
+        password = data.get('password')
+        
+        if not email or not password:
+            return make_response(jsonify({"message": "Missing required fields"}), 400)
+        
+        doctor = Doctor.query.filter_by(email=email).first()
+        
+        if doctor and doctor.authenticate(password):
+            session['user_id'] = doctor.id
+            return make_response(jsonify(doctor.to_dict(rules=('-password',))), 200)
+        else:
+            return make_response(jsonify({"message": "Invalid credentials"}), 401)
+
+api.add_resource(Login, '/login', endpoint='login')
+
+class Logout(Resource):
+    def delete(self):
+        if session.get('user_id'):
+            session.pop('user_id')
+            return make_response(jsonify({"message": "Successfully logged out"}), 200)
+        else:
+            return make_response(jsonify({"message": "Unauthorized"}), 401)
+        
+api.add_resource(Logout, '/logout', endpoint='logout')
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

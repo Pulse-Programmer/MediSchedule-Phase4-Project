@@ -12,12 +12,12 @@ function Patient() {
     dateOfBirth: "",
     address: "",
     contact: "",
-    medicalHistory: ""
+    medicalHistory: "",
   });
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    fetch("http://localhost:3000/patients")
+    fetch("/patients")
       .then((res) => res.json())
       .then((data) => {
         setPatients(data);
@@ -28,55 +28,51 @@ function Patient() {
     setSearchQuery(e.target.value);
   };
 
-  
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormValues((prevValues) => ({ ...prevValues, [name]: value }));
   };
 
-  
-
   const handleAddPatient = (e) => {
     e.preventDefault();
-    fetch("http://localhost:3000/patients", {
+    fetch("/patients", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(formValues),
     })
-    .then((res) => res.json())
-    .then((data) => {
-      setPatients([...patients, data]);
-      alert("Patient added successfully!");
-      setIsModalOpen(false);
-      setFormValues({
-        name: "",
-        age: "",
-        gender: "",
-        dateOfBirth: "",
-        address: "",
-        contact: "",
-        medicalHistory: ""
+      .then((res) => res.json())
+      .then((data) => {
+        setPatients([...patients, data]);
+        alert("Patient added successfully!");
+        setIsModalOpen(false);
+        setFormValues({
+          name: "",
+          age: "",
+          gender: "",
+          dateOfBirth: "",
+          address: "",
+          contact: "",
+          medicalHistory: "",
+        });
+      })
+      .catch((error) => {
+        console.error("Error adding patient:", error);
       });
-    })
-    .catch((error) => {
-      console.error("Error adding patient:", error);
-    });
   };
 
   const handleDeletePatient = (id) => {
-    fetch(`http://localhost:3000/patients/${id}`, {
+    fetch(`/patients/${id}`, {
       method: "DELETE",
     })
-    .then(() => {
-      setPatients(patients.filter((patient) => patient.id !== id));
-      alert("Patient deleted successfully!");
-    })
-    .catch((error) => {
-      console.error("Error deleting patient:", error);
-    });
+      .then(() => {
+        setPatients(patients.filter((patient) => patient.id !== id));
+        alert("Patient deleted successfully!");
+      })
+      .catch((error) => {
+        console.error("Error deleting patient:", error);
+      });
   };
 
   const filteredPatients = patients.filter((patient) =>
@@ -99,7 +95,9 @@ function Patient() {
         {isModalOpen && (
           <div className="modal">
             <div className="modal-content">
-              <span className="close" onClick={() => setIsModalOpen(false)}>&times;</span>
+              <span className="close" onClick={() => setIsModalOpen(false)}>
+                &times;
+              </span>
               <h2>Add New Patient</h2>
               <form onSubmit={handleAddPatient}>
                 <div className="input-container">
@@ -134,7 +132,7 @@ function Patient() {
                     required
                   />
                 </div>
-                
+
                 <div className="input-container">
                   <label>Address:</label>
                   <input
@@ -181,7 +179,9 @@ function Patient() {
               <p>Address: {patient.address}</p>
               <p>Contact: {patient.contact}</p>
               <p>Medical History: {patient.medicalHistory}</p>
-              <button onClick={() => handleDeletePatient(patient.id)}>Delete</button>
+              <button onClick={() => handleDeletePatient(patient.id)}>
+                Delete
+              </button>
               <br></br>
               <Link to={`/dms/appointment/${patient.id}`}>
                 <button className="patients-button"> View Appointments </button>

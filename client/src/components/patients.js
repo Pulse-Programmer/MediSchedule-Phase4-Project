@@ -81,8 +81,9 @@ function Patient() {
 
   return (
     <div>
+     <Navbar />
       <div className="patients-container">
-        <Navbar />
+      
         <div className="search-container">
           <input
             type="text"
@@ -178,7 +179,7 @@ function Patient() {
               <p>Gender: {patient.gender}</p>
               <p>Address: {patient.address}</p>
               <p>Contact: {patient.contact}</p>
-              <p>Medical History: {patient.medicalHistory}</p>
+              <p>Medical History: {patient.medical_history}</p>
               <button onClick={() => handleDeletePatient(patient.id)}>
                 Delete
               </button>
@@ -190,7 +191,7 @@ function Patient() {
           ))}
         </div>
       </div>
-    </div>
+     </div>
   );
 }
 

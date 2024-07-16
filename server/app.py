@@ -36,8 +36,8 @@ class Doctors(Resource):
 api.add_resource(Doctors, '/doctors')
 
 class DoctorById(Resource):
-    def get(self, doctor_id):
-        doctor = Doctor.query.filter_by(doctor_id=id).first()
+    def get(self, id):
+        doctor = Doctor.query.filter_by(id=id).first()
         return make_response(jsonify(doctor.to_dict()), 200)
 
     def delete(self, id):
@@ -50,6 +50,14 @@ class DoctorById(Resource):
         return make_response(response_body, 200)
     
 api.add_resource(DoctorById, '/doctors/<int:id>')
+
+class PatientsByDoctor(Resource):
+    def get(self, id):
+        doctor = Doctor.query.filter_by(id=id).first()
+        patients = doctor.patients
+        return make_response(jsonify([patient.to_dict() for patient in patients]), 200)
+
+api.add_resource(PatientsByDoctor, '/doctors_patients/<int:id>')
 
 class Appointments(Resource):
     def get(self):
@@ -159,7 +167,7 @@ class Signup(Resource):
         name = data.get('name')
         password = data.get('password')
         speciality = data.get('speciality')
-        contact = data.get('contact')
+        # contact = data.get('contact')
         email = data.get('email')
         
         if not name or not password:
@@ -173,7 +181,7 @@ class Signup(Resource):
         
         session['user_id'] = doctor.id
         
-        response_body = doctor.to_dict(rules=('-password',))
+        response_body = doctor.to_dict(rules=('-_password_hash',))
         
         return make_response(response_body, 201)
     

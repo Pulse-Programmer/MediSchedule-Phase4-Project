@@ -6,8 +6,9 @@ import App from "./components/App";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Appointment from "./components/appoinment";
 import Patient from "./components/patients";
-import Login from "./components/login";
-import Profile from "./components/profile";
+import Login from "./components/Login";
+import Profile from "./components/Profile";
+import AboutUs from "./components/About";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const router = createBrowserRouter([
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
     path: "/dms/profile",
     element: <Profile />,
   },
+  {
+    path: "/dms/about-us",
+    element: <AboutUs />,
+  }
 ]);
 root.render(
   <React.StrictMode>

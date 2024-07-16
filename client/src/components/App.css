@@ -9,19 +9,19 @@ html {
 
 /* Navbar .css*/
 .navbar {
-  height: 70px;
+  height: 80px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   position: sticky;
   top: 0;
   z-index: 1000;
-  width: 90%;
+  width: 98%;
   margin: 0 auto;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: #2c2c2c;
   padding: 0 20px;
-  border-radius: 10px;
+  border-radius: 2px;
 }
 
 .navbar img {
@@ -49,22 +49,24 @@ html {
   padding: 0 1rem;
   height: 100%;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.0s ease;
 }
 
 .nav-links:hover {
   text-decoration: none;
-  background-color: #1d7fcf;
+  background-color: rgba(0, 0, 0, 0.5);
   color: #fff;
-  border-radius: 5px;
-  transition: all 0.3s ease;
+  border-radius: 10px;
+  height: 60px;
+  transition: all 0.0s ease;
+ 
 }
 
 /* patients.css */
 
 .patients-container {
-  background: url("https://media.istockphoto.com/id/979040452/vector/treatment-and-clinic-assistance.jpg?s=612x612&w=0&k=20&c=tUQqfJakq5tMLbJwgJh3X52QbAI20GrRwhK1HuMJTPY=")
-    no-repeat center center/cover;
+  /* background: url("clay-banks-cEzMOp5FtV4-unsplash.jpg")
+    no-repeat center center/cover; */
   max-height: 100vh;
   overflow-y: auto;
   box-sizing: border-box;
@@ -73,6 +75,7 @@ html {
 
 .search-container {
   margin-bottom: 20px;
+  margin-top: 20px;
   text-align: center;
 }
 
@@ -137,7 +140,7 @@ button {
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
-  background-color: #007bff;
+  background-color: #d813ad;
   color: #fff;
   cursor: pointer;
   font-size: 16px;
@@ -145,7 +148,7 @@ button {
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: #8d25a7;
 }
 
 .patients-button {
@@ -265,8 +268,8 @@ button:hover {
 /* appointment.css */
 
 .appointments-container {
-  background: url("https://media.istockphoto.com/id/979040452/vector/treatment-and-clinic-assistance.jpg?s=612x612&w=0&k=20&c=tUQqfJakq5tMLbJwgJh3X52QbAI20GrRwhK1HuMJTPY=")
-    no-repeat center center/cover;
+  /* background: url("https://media.istockphoto.com/id/979040452/vector/treatment-and-clinic-assistance.jpg?s=612x612&w=0&k=20&c=tUQqfJakq5tMLbJwgJh3X52QbAI20GrRwhK1HuMJTPY=")
+    no-repeat center center/cover; */
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -343,7 +346,7 @@ button:disabled {
 .appointment-card button {
   background-color: #007bff;
   margin: 5px 0;
-}
+}form-container
 
 .appointment-card button + button {
   background-color: #dc3545;
@@ -353,8 +356,8 @@ button:disabled {
 /* login.css */
 
 .container {
-  background: url("https://media.istockphoto.com/id/979040452/vector/treatment-and-clinic-assistance.jpg?s=612x612&w=0&k=20&c=tUQqfJakq5tMLbJwgJh3X52QbAI20GrRwhK1HuMJTPY=")
-    no-repeat center center/cover;
+  background: url("patty-brito-Y-3Dt0us7e0-unsplash.jpg");
+  /* background-repeat: no-repeat; */
   position: relative;
   overflow: hidden;
   width: 100vw;
@@ -362,6 +365,7 @@ button:disabled {
   display: flex;
   align-items: center;
   justify-content: center;
+  background-size: 100%;
 }
 
 .header-background {
@@ -371,7 +375,7 @@ button:disabled {
   width: 100%;
   text-align: center;
   padding: 20px;
-  background-color: rgba(0, 0, 0, 0.5);
+  /* background-color: rgb(49, 43, 43); */
   color: #fff;
   z-index: 10;
 }
@@ -385,6 +389,22 @@ button:disabled {
 .form-container {
   position: relative;
   z-index: 1;
+  background-color: whitesmoke;
+  
+}
+.form-container2{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(246, 252, 251, 0.822);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  border-radius: 10px;
+  max-width: 600px;
 }
 
 .form-container .form-a,
@@ -427,7 +447,7 @@ button:disabled {
 
 .form-container form button {
   padding: 10px 20px;
-  background-color: #007bff;
+  background-color: #d813ad;
   color: white;
   border: none;
   border-radius: 5px;
@@ -435,7 +455,7 @@ button:disabled {
 }
 
 .form-container form button:hover {
-  background-color: #0056b3;
+  background-color: #8d25a7;
 }
 
 .form-container form a {
@@ -451,12 +471,15 @@ button:disabled {
 .toggle-container {
   position: absolute;
   left: 50%;
-  width: 60%;
-  height: 50%;
+  width: 40%;
+  height: 60%;
   overflow: hidden;
   transition: all 0.6s ease-in-out;
   border-radius: 150px 0 0 100px;
   z-index: 1000;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+  background: linear-gradient(to right, #e2e2e2, #621375);
+  /* background-size: contain; */
 }
 
 .container.active .toggle-container {
@@ -465,9 +488,12 @@ button:disabled {
 }
 
 .toggle {
-  background: url("https://media.istockphoto.com/id/979040452/vector/treatment-and-clinic-assistance.jpg?s=612x612&w=0&k=20&c=tUQqfJakq5tMLbJwgJh3X52QbAI20GrRwhK1HuMJTPY=")
-    no-repeat center center/cover;
+  /* background: url("mika-baumeister-8Qi6Yn6qDyA-unsplash.jpg")
+    no-repeat center center/cover; */
   color: #fff;
+  padding:5px 5px;
+  
+  /* object-fit: cover; */
   position: relative;
   left: -100%;
   height: 100%;
@@ -514,9 +540,9 @@ button:disabled {
 
 .hidden {
   padding: 10px 45px;
-  background-color: #512da8;
+  background-color: #d813ad;
   border: 1px solid #fff;
-  color: #830c0c;
+  color: #fff;
   border-radius: 8px;
   cursor: pointer;
   font-size: 12px;
@@ -527,13 +553,13 @@ button:disabled {
 }
 
 .hidden:hover {
-  background-color: #8d2da8;
+  background-color: #8d25a7;
 }
 
 /* profile.css */
 
 .profile-container {
-  background: url("https://media.istockphoto.com/id/979040452/vector/treatment-and-clinic-assistance.jpg?s=612x612&w=0&k=20&c=tUQqfJakq5tMLbJwgJh3X52QbAI20GrRwhK1HuMJTPY=")
+  background: url("national-cancer-institute-NFvdKIhxYlU-unsplash.jpg")
     no-repeat center center/cover;
   width: 100vw;
   height: 100vh;
@@ -579,7 +605,7 @@ p {
   align-items: center;
   justify-content: center;
   width: 100%;
-  max-width: 600px;
+  max-width: 500px;
   margin: 0 auto;
   padding: 20px;
   border-radius: 10px;
@@ -593,7 +619,7 @@ p {
 
 .input-container label {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   font-weight: bold;
 }
 
@@ -606,21 +632,41 @@ p {
 
 button {
   padding: 10px 20px;
-  background-color: #007bff;
+  background-color: #d813ad;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
-  margin-top: 10px;
+  margin-top: 30px;
+  transition: background-color 0.0s ease;
+  
 }
+/* .view-appointments-button{
+  display: flex;
+} */
 
 button:hover {
-  background-color: #0056b3;
+  background-color: #ad1bad;
 }
 
 .business-hours,
 .contact-info {
-  margin-top: 20px;
-  text-align: left;
+  margin-top: 10px;
+  text-align: center;
 }
+.about-us{
+  background: url("clay-banks-cEzMOp5FtV4-unsplash.jpg")
+  no-repeat center center/cover;
+  text-align: center;
+}
+.about-us .copyright{
+  margin-top: 130px;
+  padding: 20px;
+  color: black;
+  font-size: 14px;
+  text-align: center;
+}
+
+
+

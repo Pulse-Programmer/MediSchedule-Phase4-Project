@@ -45,10 +45,12 @@ function Profile() {
   }
 
   return (
-    <div className="profile-container">
+    <div>
       <Navbar />
-      <h1>Welcome to Gotham Hospital</h1>
-      <form className="form-container">
+    
+    <div className="profile-container">
+      <form className="form-container2">
+      <h1>Welcome to Blossom Healthcare</h1>
         <div className="input-container">
           <label>Name:</label>
           <input
@@ -79,30 +81,21 @@ function Profile() {
             required
           />
         </div>
-
+        <div className="view-appointments-button">
         <button type="button" onClick={handleSave}>
-          Save
+          SAVE
         </button>
-      </form>
-      <button
-        className="view-appointments-button"
-        onClick={handleViewAppointments}
-      >
-        Enter
+        <button
+        onClick={handleViewAppointments}>
+          ENTER
       </button>
+        </div>
 
-      <div className="business-hours">
-        <h2>Business Hours</h2>
-        <p>Monday - Friday: 9:00 AM - 5:00 PM </p>
-        <p>Saturday: 9:00 AM - 3:00 PM </p>
-      </div>
+      </form>
 
-      <div className="contact-info">
-        <h2>Contact Us</h2>
-        <p>Phone: +123 456 7890</p>
-        <p>Email: info@gothamhospital.com</p>
-        <p>Address: Business Arcade, Nairobi</p>
-      </div>
+
+
+    </div>
     </div>
   );
 }

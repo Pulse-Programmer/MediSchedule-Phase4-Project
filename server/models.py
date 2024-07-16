@@ -52,6 +52,7 @@ class Doctor(db.Model, SerializerMixin):
     #serialize_rules
     serialize_rules = ('-appointments.doctor',)
     # Association proxy to get patients for this doctor through appointments
+    patients = association_proxy('appointments', 'patient', creator=lambda patient_obj: Appointment(patient=patient_obj))
    
 
     #validations

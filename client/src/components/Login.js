@@ -10,6 +10,7 @@ function Login() {
     speciality: "",
     password: "",
   });
+  const [error, setError] = useState(null); // State to hold error messages
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -20,56 +21,93 @@ function Login() {
   }
 
   function handleSave(e) {
+    console.log(user)
     e.preventDefault();
-    // Add doctor to backend
-    fetch("/signup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(user),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("Doctor added:", data);
-        // Clear form after saving
-        setUser({
-          name: "",
-          email: "",
-          speciality: "",
-          password: "",
-        });
-      });
+
+    if (isSignUp) {
+      // Sign up new user
+      fetch("/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+      })
+        .then((res) => {
+          if(res.ok){
+            res.json().then((data) =>{
+              setUser({
+                name: "",
+                email: "",
+                speciality: "",
+                password: "",
+              });
+              navigate("/dms/patients")
+              // setIsSignUp(false); // Switch back to login after successful signup
+            })
+          }else {
+            setError("Failed to sign up");
+        }})
+
+        
+         } else {
+      // Log in existing user
+      fetch("/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+      })
+      .then((res) => {
+        if(res.ok){
+          res.json().then((data) =>{
+            navigate("/dms/patients")
+            // setIsSignUp(false); // Switch back to login after successful signup
+          })
+        }else {
+          setError("Failed to sign up");
+      }})
+    }
   }
 
   const handleToggle = () => {
     setIsSignUp(!isSignUp);
-  };
-
-  const handleSignInClick = () => {
-    navigate("/dms/profile");
+    setError(null); // Reset error when toggling between login and signup forms
   };
 
   return (
     <div className={`container ${isSignUp ? "active" : ""}`}>
       <div className="header-background">
-        <h1>GOTHAM HOSPITAL</h1>
+        <h1>BLOSSOM HEALTHCARE</h1>
       </div>
       <div className={`form-container sign-in ${isSignUp ? "active" : ""}`}>
-        <form className="form-a">
+        <form className="form-a" onSubmit={handleSave}>
           <img
             className="image"
             src="https://i.pinimg.com/236x/3f/9f/5b/3f9f5b8c9f31ce16c79d48b9eeda4de0.jpg"
             alt=""
           />
           <div className="input-container">
-            <input type="email" placeholder="Email" name="email" />
+            <input
+              type="email"
+              placeholder="Email"
+              name="email"
+              value={user.email}
+              onChange={handleChange}
+            />
           </div>
           <div className="input-container">
-            <input type="password" placeholder="Password" name="password" />
+            <input
+              type="password"
+              placeholder="Password"
+              name="password"
+              value={user.password}
+              onChange={handleChange}
+            />
           </div>
-          <button type="button" onClick={handleSignInClick}>
-            Sign In
+          <button type="submit">
+            {isSignUp ? "LOG IN" : "LOG IN"}
           </button>
         </form>
       </div>
@@ -105,30 +143,37 @@ function Login() {
             value={user.password}
             onChange={handleChange}
           />
-          <button type="submit" className="hidden" onClick={handleToggle}>
-            Sign Up
+          <button type="submit" className="hidden">
+            {isSignUp ? "SIGN UP" : "LOG IN"}
           </button>
         </form>
       </div>
       <div className="toggle-container">
         <div className={`toggle ${isSignUp ? "active" : ""}`}>
           <div
-            className={`toggle-panel toggle-left ${isSignUp ? "" : "active"}`}
+            className={`toggle-panel toggle-left ${
+              isSignUp ? "" : "active"
+            }`}
           >
             <h1>Welcome Back!</h1>
             <p>Enter your personal details to use all site features</p>
+            <button type="button" onClick={handleToggle}>
+            BACK TO LOGIN
+            </button>
           </div>
           <div
             className={`toggle-panel toggle-right ${isSignUp ? "active" : ""}`}
           >
             <h1>Hello, Doctor!</h1>
             <p>Register with your personal details to use all site features</p>
-            <button className="hidden" onClick={handleToggle}>
-              Create Account
+            <button type="button" onClick={handleToggle}>
+              CREATE ACCOUNT
             </button>
           </div>
         </div>
+        {error && <p className="error-message">{error}</p>}
       </div>
+      
     </div>
   );
 }

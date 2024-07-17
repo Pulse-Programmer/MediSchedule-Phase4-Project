@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function Login() {
+function Login({ onLogin }) {
   let navigate = useNavigate();
   const [isSignUp, setIsSignUp] = useState(false);
-  const [user, setUser] = useState({
+  const [dict, setDict] = useState({
     name: "",
     email: "",
     speciality: "",
@@ -12,16 +12,27 @@ function Login() {
   });
   const [error, setError] = useState(null); // State to hold error messages
 
+  const [doctors, setDoctors] = useState([]);
+
   function handleChange(e) {
     const { name, value } = e.target;
-    setUser((prevUser) => ({
+    setDict((prevUser) => ({
       ...prevUser,
       [name]: value,
     }));
   }
 
+  function handleDoctors(e) {
+    fetch("/doctors")
+      .then((r) => r.json())
+      .then((data) => {
+        setDoctors(data);
+        console.log(doctors);
+      });
+  }
+
   function handleSave(e) {
-    console.log(user)
+    // console.log(user);
     e.preventDefault();
 
     if (isSignUp) {
@@ -31,43 +42,50 @@ function Login() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(user),
-      })
-        .then((res) => {
-          if(res.ok){
-            res.json().then((data) =>{
-              setUser({
+        body: JSON.stringify(dict),
+      }).then((res) => {
+        if (res.ok) {
+          res
+            .json()
+            .then((data) => {
+              //   console.log(data);
+              onLogin(data);
+              //clear form after saving
+              setDict({
                 name: "",
                 email: "",
                 speciality: "",
                 password: "",
               });
-              navigate("/dms/patients")
+
               // setIsSignUp(false); // Switch back to login after successful signup
             })
-          }else {
-            setError("Failed to sign up");
-        }})
-
-        
-         } else {
+            .then(() => navigate("/dms/patients"));
+        } else {
+          setError("Failed to sign up");
+        }
+      });
+    } else {
       // Log in existing user
       fetch("/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(user),
-      })
-      .then((res) => {
-        if(res.ok){
-          res.json().then((data) =>{
-            navigate("/dms/patients")
-            // setIsSignUp(false); // Switch back to login after successful signup
-          })
-        }else {
+        body: JSON.stringify(dict),
+      }).then((res) => {
+        if (res.ok) {
+          res
+            .json()
+            .then((data) => {
+              onLogin(data);
+              // setIsSignUp(false); // Switch back to login after successful signup
+            })
+            .then(() => navigate("/dms/patients"));
+        } else {
           setError("Failed to sign up");
-      }})
+        }
+      });
     }
   }
 
@@ -80,6 +98,7 @@ function Login() {
     <div className={`container ${isSignUp ? "active" : ""}`}>
       <div className="header-background">
         <h1>BLOSSOM HEALTHCARE</h1>
+        <button onClick={handleDoctors}>Doctors</button>
       </div>
       <div className={`form-container sign-in ${isSignUp ? "active" : ""}`}>
         <form className="form-a" onSubmit={handleSave}>
@@ -93,7 +112,7 @@ function Login() {
               type="email"
               placeholder="Email"
               name="email"
-              value={user.email}
+              value={dict.email}
               onChange={handleChange}
             />
           </div>
@@ -102,13 +121,11 @@ function Login() {
               type="password"
               placeholder="Password"
               name="password"
-              value={user.password}
+              value={dict.password}
               onChange={handleChange}
             />
           </div>
-          <button type="submit">
-            {isSignUp ? "LOG IN" : "LOG IN"}
-          </button>
+          <button type="submit">{isSignUp ? "LOG IN" : "LOG IN"}</button>
         </form>
       </div>
       <div className={`form-container sign-up ${isSignUp ? "active" : ""}`}>
@@ -119,28 +136,28 @@ function Login() {
             name="name"
             type="text"
             placeholder="Name"
-            value={user.name}
+            value={dict.name}
             onChange={handleChange}
           />
           <input
             name="email"
             type="email"
             placeholder="Email"
-            value={user.email}
+            value={dict.email}
             onChange={handleChange}
           />
           <input
             name="speciality"
             type="text"
             placeholder="Speciality"
-            value={user.speciality}
+            value={dict.speciality}
             onChange={handleChange}
           />
           <input
             name="password"
             type="password"
             placeholder="Password"
-            value={user.password}
+            value={dict.password}
             onChange={handleChange}
           />
           <button type="submit" className="hidden">
@@ -151,14 +168,12 @@ function Login() {
       <div className="toggle-container">
         <div className={`toggle ${isSignUp ? "active" : ""}`}>
           <div
-            className={`toggle-panel toggle-left ${
-              isSignUp ? "" : "active"
-            }`}
+            className={`toggle-panel toggle-left ${isSignUp ? "" : "active"}`}
           >
             <h1>Welcome Back!</h1>
             <p>Enter your personal details to use all site features</p>
             <button type="button" onClick={handleToggle}>
-            BACK TO LOGIN
+              BACK TO LOGIN
             </button>
           </div>
           <div
@@ -173,7 +188,6 @@ function Login() {
         </div>
         {error && <p className="error-message">{error}</p>}
       </div>
-      
     </div>
   );
 }

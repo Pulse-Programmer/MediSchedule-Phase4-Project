@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "./navbar";
+import { useOutletContext } from "react-router-dom";
 
 function Profile() {
-  const [user, setUser] = useState({
+  const { user } = useOutletContext();
+  const [dict, setDict] = useState({
     name: "",
     email: "",
     speciality: "",
@@ -13,26 +15,26 @@ function Profile() {
 
   function handleChange(e) {
     const { name, value } = e.target;
-    setUser((prevUser) => ({
+    setDict((prevUser) => ({
       ...prevUser,
       [name]: value,
     }));
   }
 
-  function handleSave() {
+  function handleEdit() {
     // Add doctor to backend
-    fetch("/doctors", {
-      method: "POST",
+    fetch(`/doctors/${user.id}`, {
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(user),
+      body: JSON.stringify(dict),
     })
       .then((res) => res.json())
       .then((data) => {
         console.log("Doctor added:", data);
         // Clear form after saving
-        setUser({
+        setDict({
           name: "",
           email: "",
           speciality: "",
@@ -47,55 +49,48 @@ function Profile() {
   return (
     <div>
       <Navbar />
-    
-    <div className="profile-container">
-      <form className="form-container2">
-      <h1>Welcome to Blossom Healthcare</h1>
-        <div className="input-container">
-          <label>Name:</label>
-          <input
-            type="text"
-            name="name"
-            value={user.name}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="input-container">
-          <label>Email:</label>
-          <input
-            type="email"
-            name="email"
-            value={user.email}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="input-container">
-          <label>Speciality:</label>
-          <input
-            type="text"
-            name="speciality"
-            value={user.speciality}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="view-appointments-button">
-        <button type="button" onClick={handleSave}>
-          SAVE
-        </button>
-        <button
-        onClick={handleViewAppointments}>
-          ENTER
-      </button>
-        </div>
 
-      </form>
-
-
-
-    </div>
+      <div className="profile-container">
+        <form className="form-container2">
+          <h1>Welcome to Blossom Healthcare</h1>
+          <div className="input-container">
+            <label>Name:</label>
+            <input
+              type="text"
+              name="name"
+              value={dict.name}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="input-container">
+            <label>Email:</label>
+            <input
+              type="email"
+              name="email"
+              value={dict.email}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="input-container">
+            <label>Speciality:</label>
+            <input
+              type="text"
+              name="speciality"
+              value={dict.speciality}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="view-appointments-button">
+            <button type="button" onClick={handleEdit}>
+              Save
+            </button>
+            <button onClick={handleViewAppointments}>ENTER</button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

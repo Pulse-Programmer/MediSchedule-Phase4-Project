@@ -6,36 +6,43 @@ import App from "./components/App";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Appointment from "./components/appoinment";
 import Patient from "./components/patients";
-import Login from "./components/Login";
-import Profile from "./components/Profile";
-import AboutUs from "./components/About";
+import Login from "./components/login";
+import Profile from "./components/profile";
+import AboutUs from "./components/about";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+    children: [
+      { path: "/dms/appointment/:id", element: <Appointment /> },
+      { path: "/dms/patients", element: <Patient /> },
+      { path: "/dms/profile", element: <Profile /> },
+      { path: "/dms/about-us", element: <AboutUs /> },
+      { path: "/dms", element: <Login /> },
+    ],
   },
-  {
-    path: "/dms/patients",
-    element: <Patient />,
-  },
-  {
-    path: "/dms",
-    element: <Login />,
-  },
-  {
-    path: "/dms/appointment/:id",
-    element: <Appointment />,
-  },
-  {
-    path: "/dms/profile",
-    element: <Profile />,
-  },
-  {
-    path: "/dms/about-us",
-    element: <AboutUs />,
-  }
+  // {
+  //   path: "/dms/patients",
+  //   element: <Patient />,
+  // },
+  // {
+  //   path: "/dms",
+  //   element: <Login />,
+  // },
+  // {
+  //   path: "/dms/appointment/:id",
+  //   element: <Appointment />,
+  // },
+  // {
+  //   path: "/dms/profile",
+  //   element: <Profile />,
+  // },
+  // {
+  //   path: "/dms/about-us",
+  //   element: <AboutUs />,
+  // },
 ]);
 root.render(
   <React.StrictMode>

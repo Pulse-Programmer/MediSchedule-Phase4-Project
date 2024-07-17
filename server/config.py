@@ -1,5 +1,7 @@
-# Standard library imports
 
+# Import required libraries
+from dotenv import load_dotenv
+import os
 # Remote library imports
 from flask import Flask
 from flask_cors import CORS
@@ -10,11 +12,19 @@ from sqlalchemy import MetaData
 from flask_bcrypt import Bcrypt
 
 
+# Load environment variables
+load_dotenv()
+
+
 # Local imports
 
 # Instantiate app, set attributes
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
+app = Flask(__name__,
+    static_url_path='',
+    static_folder='../client/build',
+    template_folder='../client/build')
+
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URI')      #'sqlite:///app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = b'Y\xf1Xz\x00\xad|eQ\x80t \xca\x1a\x10K'
 app.json.compact = False

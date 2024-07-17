@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "./navbar";
 import { Link } from "react-router-dom";
+import { useOutletContext } from "react-router-dom";
 
 function Patient() {
+  const { user } = useOutletContext();
   const [patients, setPatients] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [formValues, setFormValues] = useState({
@@ -15,14 +17,14 @@ function Patient() {
     medicalHistory: "",
   });
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  console.log(user);
   useEffect(() => {
-    fetch("/patients")
+    fetch(`/doctors_patients/${user.id}`)
       .then((res) => res.json())
       .then((data) => {
         setPatients(data);
       });
-  }, []);
+  }, [user.id]);
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
@@ -81,9 +83,8 @@ function Patient() {
 
   return (
     <div>
-     <Navbar />
+      <Navbar />
       <div className="patients-container">
-      
         <div className="search-container">
           <input
             type="text"
@@ -191,7 +192,7 @@ function Patient() {
           ))}
         </div>
       </div>
-     </div>
+    </div>
   );
 }
 

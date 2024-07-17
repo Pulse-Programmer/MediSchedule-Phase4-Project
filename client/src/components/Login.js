@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useFormik } from "formik";
+import * as yup from "yup";
 
 function Login({ onLogin }) {
   let navigate = useNavigate();
@@ -13,6 +15,17 @@ function Login({ onLogin }) {
   const [error, setError] = useState(null); // State to hold error messages
 
   const [doctors, setDoctors] = useState([]);
+
+  // const formSchema = yup.object().shape({
+  //   email: yup
+  //     .string()
+  //     .email("Invalid email address")
+  //     .required("Email is required"),
+  //   password: yup
+  //     .string()
+  //     .min(8, "Password must be at least 8 characters")
+  //     .required("Password is required"),
+  // });
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -83,7 +96,7 @@ function Login({ onLogin }) {
             })
             .then(() => navigate("/dms/patients"));
         } else {
-          setError("Failed to sign up");
+          res.json().then((err) => setError(err.message));
         }
       });
     }
@@ -126,6 +139,11 @@ function Login({ onLogin }) {
             />
           </div>
           <button type="submit">{isSignUp ? "LOG IN" : "LOG IN"}</button>
+          {error && (
+            <p style={{ color: "red", fontSize: 16, marginTop: "12px" }}>
+              {error}
+            </p>
+          )}
         </form>
       </div>
       <div className={`form-container sign-up ${isSignUp ? "active" : ""}`}>
@@ -186,7 +204,14 @@ function Login({ onLogin }) {
             </button>
           </div>
         </div>
-        {error && <p className="error-message">{error}</p>}
+        {error && (
+          <p
+            className="error-message"
+            style={{ color: "red", fontSize: 16, marginTop: "12px" }}
+          >
+            {error}
+          </p>
+        )}
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Navbar from "./navbar";
+import { useOutletContext } from "react-router-dom";
 
 function Appointment() {
   let { id } = useParams();
@@ -11,6 +12,8 @@ function Appointment() {
   let [time, setTime] = useState("");
   let [editMode, setEditMode] = useState(false);
   let [editAppointmentId, setEditAppointmentId] = useState(null);
+
+  const { user } = useOutletContext();
 
   useEffect(() => {
     // Fetch patient data
@@ -35,6 +38,7 @@ function Appointment() {
       date: date,
       time: time,
       reason: appointment,
+      user_id: user.id,
     };
 
     const requestOptions = {

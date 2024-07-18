@@ -15,27 +15,18 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+    children: [
+      { path: "/dms/appointment/:id", element: <Appointment /> },
+      { path: "/dms/patients", element: <Patient /> },
+      { path: "/dms/profile", element: <Profile /> },
+      { path: "/dms/about-us", element: <AboutUs /> },
+      { path: "/dms", element: <Login /> },
+      {path: "/doctors", element: <Doctors/>},
+    ],
   },
-  {
-    path: "/dms/patients",
-    element: <Patient />,
-  },
-  {
-    path: "/dms",
-    element: <Login />,
-  },
-  {
-    path: "/dms/appointment/:id",
-    element: <Appointment />,
-  },
-  {
-    path: "/dms/about-us",
-    element: <AboutUs />,
-  },
-  {
-    path: "/doctors",
-    element: <Doctors />,
-  }
+
+
+
 ]);
 root.render(
   <React.StrictMode>

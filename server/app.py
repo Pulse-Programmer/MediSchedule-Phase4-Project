@@ -3,7 +3,7 @@
 # Standard library imports
 
 # Remote library imports
-from flask import request, make_response, jsonify, session
+from flask import request, make_response, jsonify, session, render_template
 from flask_restful import Resource
 
 # Local imports
@@ -12,15 +12,18 @@ from config import app, db, api
 from models import Doctor, Patient, Appointment
 
 # Views go here!
+@app.errorhandler(404)
+def not_found(e):
+    return render_template("index.html")
 
-@app.route('/')
-def index():
-    return '<h1>Project Server</h1>'
+# @app.route('/')
+# def index():
+#     return '<h1>Project Server</h1>'
 
 class Doctors(Resource):
     def get(self):
         doctors = Doctor.query.all()
-        return make_response(jsonify([doctor.to_dict() for doctor in doctors]), 200)
+        return make_response(jsonify([doctor.to_dict(rules=('-_password_hash',)) for doctor in doctors]), 200)
     
     def post(self):
         data = request.get_json()
@@ -39,7 +42,20 @@ class DoctorById(Resource):
     def get(self, id):
         doctor = Doctor.query.filter_by(id=id).first()
         return make_response(jsonify(doctor.to_dict()), 200)
-
+    
+    def patch(self, id):
+        data = request.get_json()
+        doctor = Doctor.query.filter_by(id=id).first()
+        
+        for attr in data:
+            setattr(doctor, attr, data.get(attr))
+        # doctor.password_hash = data.get('password')
+        db.session.add(doctor)
+        db.session.commit()
+        
+        response_body = doctor.to_dict()
+        
+        return make_response(response_body, 200)
     def delete(self, id):
         doctor = Doctor.query.filter_by(id=id).first()
         db.session.delete(doctor)
@@ -67,7 +83,7 @@ class Appointments(Resource):
     def post(self):
         data = request.get_json()
         patient = Patient.query.filter_by(id=data['patientId']).first()
-        doctor = Doctor.query.filter_by(id=session.get('user_id')).first()
+        doctor = Doctor.query.filter_by(id=data.get('user_id')).first()
         appointment = Appointment(patient=patient, doctor=doctor, date=data['date'], time=data['time'], reason=data['reason'])
         
         db.session.add(appointment)
@@ -191,9 +207,9 @@ class CheckSession(Resource):
     def get(self):
         if session.get('user_id'):
             doctor = Doctor.query.filter_by(id=session.get('user_id')).first()
-            return make_response(jsonify(doctor.to_dict(rules=('-password',))), 200)
+            return make_response(doctor.to_dict(rules=('-_password_hash',)), 200)
         else:
-            return make_response(jsonify({"message": "Unauthorized"}), 401)
+            return make_response({"message": "Unauthorized"}, 401)
     
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
 

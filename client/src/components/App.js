@@ -1,5 +1,5 @@
 import "./App.css";
-import Login from "./login";
+import Login from "./Login";
 import { Outlet } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";

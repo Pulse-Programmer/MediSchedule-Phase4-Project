@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useFormik } from "formik";
-import * as yup from "yup";
+// import { useFormik } from "formik";
+// import * as yup from "yup";
 
 function Login({ onLogin }) {
   let navigate = useNavigate();
@@ -14,7 +14,7 @@ function Login({ onLogin }) {
   });
   const [error, setError] = useState(null); // State to hold error messages
 
-  const [doctors, setDoctors] = useState([]);
+  
 
   // const formSchema = yup.object().shape({
   //   email: yup
@@ -35,14 +35,7 @@ function Login({ onLogin }) {
     }));
   }
 
-  function handleDoctors(e) {
-    fetch("/doctors")
-      .then((r) => r.json())
-      .then((data) => {
-        setDoctors(data);
-        console.log(doctors);
-      });
-  }
+ 
 
   function handleSave(e) {
     // console.log(user);
@@ -111,7 +104,7 @@ function Login({ onLogin }) {
     <div className={`container ${isSignUp ? "active" : ""}`}>
       <div className="header-background">
         <h1>BLOSSOM HEALTHCARE</h1>
-        <button onClick={handleDoctors}>Doctors</button>
+        
       </div>
       <div className={`form-container sign-in ${isSignUp ? "active" : ""}`}>
         <form className="form-a" onSubmit={handleSave}>

@@ -23,18 +23,7 @@ function Navbar() {
       />
       <h3 style={{ color: "white", marginRight: "42rem" }}>Dr. {user.name}</h3>
       <ul className="nav-menu">
-        <li className="nav-item">
-          <button className="nav-links" onClick={handleLogoutClick}>
-            Log Out
-          </button>
-        </li>
-
-        <li className="nav-item">
-          <Link to="/dms/profile" className="nav-links">
-            <h4>Profile</h4>
-          </Link>
-        </li>
-
+  
         <li className="nav-item">
           <Link to="/dms/patients" className="nav-links">
             <h4>Patients</h4>
@@ -42,9 +31,21 @@ function Navbar() {
         </li>
 
         <li className="nav-item">
+          <Link to="/doctors" className="nav-links">
+            <h4>Doctors</h4>
+          </Link>
+        </li>
+
+        <li className="nav-item">
           <Link to="/dms/about-us" className="nav-links">
             <h4>About Us</h4>
           </Link>
+        </li>
+
+        <li className="nav-item">
+          <button className="nav-links" onClick={handleLogoutClick}>
+            Log Out
+          </button>
         </li>
       </ul>
     </nav>

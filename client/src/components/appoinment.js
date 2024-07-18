@@ -105,8 +105,10 @@ function Appointment() {
   };
 
   return (
-    <div className="appointments-container">
+    <div>
       <Navbar />
+    <div className="appointments-container">
+      
       <h1>Appointment Form</h1>
       {patient && (
         <div>
@@ -159,10 +161,11 @@ function Appointment() {
           <p>
             <strong>Reason:</strong> {appt.reason}
           </p>
-          <button onClick={() => handleEdit(appt)}>Edit</button>
-          <button onClick={() => handleDelete(appt.id)}>Delete</button>
+          <button  onClick={() => handleEdit(appt)}>Edit</button>
+          <button className="app-btn" onClick={() => handleDelete(appt.id)}>Delete</button>
         </div>
       ))}
+    </div>
     </div>
   );
 }

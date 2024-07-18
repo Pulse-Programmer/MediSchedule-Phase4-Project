@@ -62,15 +62,17 @@ html {
  
 }
 
+
 /* patients.css */
 
 .patients-container {
-  /* background: url("clay-banks-cEzMOp5FtV4-unsplash.jpg")
-    no-repeat center center/cover; */
-  max-height: 100vh;
-  overflow-y: auto;
-  box-sizing: border-box;
-  padding: 20px;
+  background: url("roman-kraft-0EVKn3-5JSU-unsplash.jpg")
+    no-repeat center center/cover;
+  position: relative;
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+  background-size: 100%;
 }
 
 .search-container {
@@ -90,12 +92,24 @@ html {
 
 .patients-list {
   display: flex;
-  flex-wrap: wrap;
+  width: 100%;
+  /* flex-wrap: wrap; */
   gap: 20px;
   justify-content: center;
+  margin-bottom: 20px;
+  font-size: larger;
+  /* background-color: #ccc; */
+}
+.patients-table{
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  transition: all 0.3s ease;
+  text-align: left;
+  border-collapse: collapse;
 }
 
-.patient-card {
+/* .patient-card {
   border: 1px solid;
   padding: 20px;
   border-radius: 5px;
@@ -111,7 +125,7 @@ html {
 
 .patient-card p {
   margin-bottom: 5px;
-}
+} */
 
 .patient-details {
   margin-top: 10px;
@@ -151,15 +165,15 @@ button:hover {
   background-color: #8d25a7;
 }
 
-.patients-button {
+/* .patients-button {
   background-color: #28a745;
 }
 
 .patients-button:hover {
   background-color: #218838;
-}
+} */
 
-/* Media query for smaller screens */
+/* Media query for smaller screens
 @media (max-width: 768px) {
   .patient-card {
     width: calc(50% - 20px);
@@ -170,7 +184,7 @@ button:hover {
   .patient-card {
     width: calc(100% - 20px);
   }
-}
+} */
 /* Add styles for the modal popup */
 .modal {
   display: flex;
@@ -230,7 +244,7 @@ button:hover {
 }
 
 button {
-  background-color: #4caf50;
+  background-color: #d813ad;
   color: white;
   padding: 10px 20px;
   border: none;
@@ -238,9 +252,9 @@ button {
   cursor: pointer;
 }
 
-button:hover {
+/* button:hover {
   background-color: #45a049;
-}
+} */
 
 .patients-list {
   margin-top: 20px;
@@ -268,8 +282,8 @@ button:hover {
 /* appointment.css */
 
 .appointments-container {
-  /* background: url("https://media.istockphoto.com/id/979040452/vector/treatment-and-clinic-assistance.jpg?s=612x612&w=0&k=20&c=tUQqfJakq5tMLbJwgJh3X52QbAI20GrRwhK1HuMJTPY=")
-    no-repeat center center/cover; */
+  background: url("anton-8q-U8X1zkvI-unsplash.jpg")
+  no-repeat center center/cover;
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -316,7 +330,7 @@ input {
 
 button {
   padding: 10px 20px;
-  background-color: #28a73d;
+  background-color: #d813ad;
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -344,13 +358,16 @@ button:disabled {
 }
 
 .appointment-card button {
-  background-color: #007bff;
+  background-color: #d813ad;
   margin: 5px 0;
 }form-container
 
 .appointment-card button + button {
   background-color: #dc3545;
   margin-left: 5px;
+}
+.app-btn{
+  margin-left: 10px;
 }
 
 /* login.css */
@@ -669,4 +686,57 @@ button:hover {
 }
 
 
+
+.doctors-table-container {
+  background:url("national-cancer-institute-NFvdKIhxYlU-unsplash.jpg")
+  no-repeat center center/cover;
+  margin-top: 20px;
+  overflow-x: auto;
+
+}
+
+.doctors-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: larger;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.doctors-table th, .doctors-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.doctors-table th {
+  background-color: #f2f2f2;
+  color: #333;
+}
+
+.doctors-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.doctors-table tbody tr:hover {
+  color: white;
+  background-color: #494e50; 
+  cursor: pointer;
+}
+
+.doctors-table th, .doctors-table td {
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .doctors-table th, .doctors-table td {
+      padding: 8px;
+  }
+
+  .doctors-table {
+      font-size: 14px;
+  }
+}
 

@@ -7,8 +7,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Appointment from "./components/appoinment";
 import Patient from "./components/patients";
 import Login from "./components/Login";
-import Profile from "./components/Profile";
 import AboutUs from "./components/About";
+import Doctors from "./components/Doctor";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const router = createBrowserRouter([
@@ -29,12 +29,12 @@ const router = createBrowserRouter([
     element: <Appointment />,
   },
   {
-    path: "/dms/profile",
-    element: <Profile />,
-  },
-  {
     path: "/dms/about-us",
     element: <AboutUs />,
+  },
+  {
+    path: "/doctors",
+    element: <Doctors />,
   }
 ]);
 root.render(

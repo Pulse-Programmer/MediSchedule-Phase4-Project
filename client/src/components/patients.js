@@ -171,25 +171,43 @@ function Patient() {
             </div>
           </div>
         )}
-        <div className="patients-list">
-          {filteredPatients.map((patient) => (
-            <div key={patient.id} className="patient-card">
-              <h3> Name:{patient.name}</h3>
-              <p>Age: {patient.age}</p>
-              <p>Gender: {patient.gender}</p>
-              <p>Address: {patient.address}</p>
-              <p>Contact: {patient.contact}</p>
-              <p>Medical History: {patient.medical_history}</p>
-              <button onClick={() => handleDeletePatient(patient.id)}>
-                Delete
-              </button>
-              <br></br>
-              <Link to={`/dms/appointment/${patient.id}`}>
-                <button className="patients-button"> View Appointments </button>
-              </Link>
-            </div>
-          ))}
-        </div>
+<div className="patients-list">
+  <table className="patients-table" >
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Gender</th>
+        <th>Address</th>
+        <th>Contact</th>
+        <th>Medical History</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {filteredPatients.map((patient) => (
+        <tr key={patient.id}>
+          <td>{patient.name}</td>
+          <td>{patient.age}</td>
+          <td>{patient.gender}</td>
+          <td>{patient.address}</td>
+          <td>{patient.contact}</td>
+          <td>{patient.medical_history}</td>
+          <td>
+            <button onClick={() => handleDeletePatient(patient.id)}>
+              Delete
+            </button>
+            <Link to={`/dms/appointment/${patient.id}`}>
+              <button className="patients-button">View Appointments</button>
+            </Link>
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+
       </div>
      </div>
   );

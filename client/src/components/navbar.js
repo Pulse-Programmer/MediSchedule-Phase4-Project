@@ -15,21 +15,11 @@ function Navbar(){
       }
     return(
         <nav className="navbar">
-           <img src="https://i.pinimg.com/236x/3d/58/7b/3d587b89267367e0e3d012150bb90ff8.jpg" alt=""/>
+          
+      <img src="https://i.pinimg.com/236x/3d/58/7b/3d587b89267367e0e3d012150bb90ff8.jpg" alt="Profile" />
+      
+      
             <ul className="nav-menu"> 
-
-            <li className="nav-item">
-                    <button className="nav-links" onClick={handleLogoutClick}>
-                    Log Out
-                    </button>  
- 
-                </li>
-               
-                <li className="nav-item">
-                    <Link to="/dms/profile" className="nav-links">
-                    <h4>Profile</h4>
-                    </Link>  
-                 </li>
 
                  <li className="nav-item">
                     <Link to="/dms/patients" className="nav-links">
@@ -38,10 +28,24 @@ function Navbar(){
                  </li>
 
                  <li className="nav-item">
+                    <Link to="/doctors" className="nav-links">
+                    <h4>Doctors</h4>
+                    </Link>
+                 </li>
+
+                 <li className="nav-item">
                     <Link to="/dms/about-us" className="nav-links">
                     <h4>About Us</h4>
                     </Link>
                  </li>
+
+                 <li className="nav-item">
+                    <button className="nav-links" onClick={handleLogoutClick}>
+                    Log Out
+                    </button> 
+                
+ 
+                </li>
                  
                 </ul> 
         </nav>

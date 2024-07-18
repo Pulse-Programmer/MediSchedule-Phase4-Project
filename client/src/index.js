@@ -6,9 +6,9 @@ import App from "./components/App";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Appointment from "./components/appoinment";
 import Patient from "./components/patients";
-import Login from "./components/login";
-import Profile from "./components/profile";
-import AboutUs from "./components/about";
+import Login from "./components/Login";
+import AboutUs from "./components/About";
+import Doctors from "./components/Doctor";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const router = createBrowserRouter([
@@ -18,31 +18,14 @@ const router = createBrowserRouter([
     children: [
       { path: "/dms/appointment/:id", element: <Appointment /> },
       { path: "/dms/patients", element: <Patient /> },
-      { path: "/dms/profile", element: <Profile /> },
       { path: "/dms/about-us", element: <AboutUs /> },
       { path: "/dms", element: <Login /> },
+      {path: "/doctors", element: <Doctors/>},
     ],
   },
-  // {
-  //   path: "/dms/patients",
-  //   element: <Patient />,
-  // },
-  // {
-  //   path: "/dms",
-  //   element: <Login />,
-  // },
-  // {
-  //   path: "/dms/appointment/:id",
-  //   element: <Appointment />,
-  // },
-  // {
-  //   path: "/dms/profile",
-  //   element: <Profile />,
-  // },
-  // {
-  //   path: "/dms/about-us",
-  //   element: <AboutUs />,
-  // },
+
+
+
 ]);
 root.render(
   <React.StrictMode>

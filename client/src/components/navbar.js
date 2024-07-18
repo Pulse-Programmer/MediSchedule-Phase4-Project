@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useOutletContext } from "react-router-dom";
 
 function Navbar() {
-  const { setUser } = useOutletContext();
+  const { user, setUser } = useOutletContext();
   const navigate = useNavigate();
   function handleLogoutClick() {
     fetch("/logout", { method: "DELETE" })
@@ -21,6 +21,7 @@ function Navbar() {
         src="https://i.pinimg.com/236x/3d/58/7b/3d587b89267367e0e3d012150bb90ff8.jpg"
         alt=""
       />
+      <h3 style={{ color: "white", marginRight: "42rem" }}>Dr. {user.name}</h3>
       <ul className="nav-menu">
         <li className="nav-item">
           <button className="nav-links" onClick={handleLogoutClick}>
